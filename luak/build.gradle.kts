@@ -1,5 +1,9 @@
 plugins {
-    id("com.github.minigdx.gradle.plugin.developer.mpp") version("1.3.2")
+    id("com.github.minigdx.gradle.plugin.developer.mpp")
+}
+
+dependencies {
+    add("commonMainApi", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 }
 
 minigdxDeveloper {
