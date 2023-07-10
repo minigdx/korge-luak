@@ -25,7 +25,6 @@ internal actual object JSystem {
     actual fun getProperty(key: String, def: String?): String? = when (key) {
         "CALLS" -> "0"
         "TRACE" -> "0"
-        "luaj.package.path" -> "./"
         "file.separator" -> "/"
         "line.separator" -> "\n"
         else -> def
@@ -36,8 +35,10 @@ internal actual object JSystem {
     actual fun totalMemory(): Long = 0L
     actual fun freeMemory(): Long = 0L
 
-    actual fun InstantiateClassByName(name: String): Any? = TODO()
-    actual fun StartNativeThread(runnable: () -> Unit, name: String): Unit = TODO()
+    actual fun InstantiateClassByName(name: String): Any? = null
+    actual fun StartNativeThread(runnable: () -> Unit, name: String): Unit = TODO(
+        "LUAK - StartNativeThread - Not Implemented"
+    )
 
     actual fun Class_portableName(clazz: KClass<*>): String = clazz.simpleName ?: "Unknown"
     actual fun Class_isInstancePortable(clazz: KClass<*>, ins: Any): Boolean = clazz.isInstance(ins)
