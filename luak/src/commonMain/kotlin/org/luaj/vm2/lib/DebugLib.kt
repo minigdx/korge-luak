@@ -84,7 +84,7 @@ import kotlin.math.*
  *
  * @see [Lua 5.2 Debug Lib Reference](http://www.lua.org/manual/5.2/manual.html.6.10)
  */
-class DebugLib : TwoArgFunction() {
+class DebugLib : TwoArgFunction(), ExecutionListener {
 
     lateinit internal var globals: Globals
 
@@ -386,21 +386,21 @@ class DebugLib : TwoArgFunction() {
         }
     }
 
-    fun onCall(f: LuaFunction) {
+    override fun onCall(f: LuaFunction) {
         val s = globals.running.state
         if (s.inhook) return
         callstack().onCall(f)
         if (s.hookcall) callHook(s, CALL, NIL)
     }
 
-    fun onCall(c: LuaClosure, varargs: Varargs, stack: Array<LuaValue>) {
+    override suspend fun onCall(c: LuaClosure, varargs: Varargs, stack: Array<LuaValue>) {
         val s = globals.running.state
         if (s.inhook) return
         callstack().onCall(c, varargs, stack)
         if (s.hookcall) callHook(s, CALL, NIL)
     }
 
-    fun onInstruction(pc: Int, v: Varargs, top: Int) {
+    override suspend fun onInstruction(pc: Int, v: Varargs, top: Int) {
         val s = globals.running.state
         if (s.inhook) return
         callstack().onInstruction(pc, v, top)
@@ -417,14 +417,14 @@ class DebugLib : TwoArgFunction() {
         }
     }
 
-    fun onReturn() {
+    override fun onReturn() {
         val s = globals.running.state
         if (s.inhook) return
         callstack().onReturn()
         if (s.hookrtrn) callHook(s, RETURN, NIL)
     }
 
-    fun traceback(level: Int): String {
+    override fun traceback(level: Int): String {
         return callstack().traceback(level)
     }
 

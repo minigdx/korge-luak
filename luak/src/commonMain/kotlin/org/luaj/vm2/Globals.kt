@@ -26,6 +26,7 @@ import org.luaj.vm2.io.*
 
 import org.luaj.vm2.lib.BaseLib
 import org.luaj.vm2.lib.DebugLib
+import org.luaj.vm2.lib.ExecutionListener
 import org.luaj.vm2.lib.IoLib
 import org.luaj.vm2.lib.PackageLib
 import org.luaj.vm2.lib.ResourceFinder
@@ -149,7 +150,7 @@ open class Globals(
     @kotlin.jvm.JvmField var package_: PackageLib? = null
 
     /** The DebugLib instance loaded into this Globals, or null if debugging is not enabled  */
-    @kotlin.jvm.JvmField var debuglib: DebugLib? = null
+    @kotlin.jvm.JvmField var debuglib: ExecutionListener? = null
 
     /** The installed loader.
      * @see Loader

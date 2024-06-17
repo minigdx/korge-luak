@@ -21,6 +21,7 @@
  */
 package org.luaj.vm2
 
+import kotlinx.coroutines.yield
 import org.luaj.vm2.internal.runBlockingNoSuspensions
 
 typealias Instruction = Int
@@ -220,7 +221,6 @@ class LuaClosure
         // process instructions
         try {
             loop@ while (true) {
-
                 globals?.debuglib?.onInstruction(pc, v, top)
 
                 // pull out instruction
