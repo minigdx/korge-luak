@@ -147,9 +147,9 @@ class LuaThread : LuaValue {
     suspend fun resume(args: Varargs): Varargs {
         val s = this.state
         return when {
-            s.status > LuaThread.STATUS_SUSPENDED -> LuaValue.varargsOf(
-                LuaValue.BFALSE,
-                LuaValue.valueOf("cannot resume " + (if (s.status == LuaThread.STATUS_DEAD) "dead" else "non-suspended") + "(${s.status}) coroutine")
+            s.status > STATUS_SUSPENDED -> varargsOf(
+                BFALSE,
+                valueOf("cannot resume " + (if (s.status == LuaThread.STATUS_DEAD) "dead" else "non-suspended") + "(${s.status}) coroutine")
             )
             else -> s.lua_resume(this, args)
         }
@@ -241,8 +241,8 @@ class LuaThread : LuaValue {
                 //println("Finished waiting")
                 //println("/RESUME $this")
                 return when {
-                    this.error != null -> LuaValue.varargsOf(LuaValue.BFALSE, LuaValue.valueOf(this.error!!))
-                    else -> LuaValue.varargsOf(LuaValue.BTRUE, this.result)
+                    this.error != null -> varargsOf(BFALSE, valueOf(this.error!!))
+                    else -> varargsOf(LuaValue.BTRUE, this.result)
                 }
             } catch (ie: InterruptedException) {
                 throw OrphanedThread()

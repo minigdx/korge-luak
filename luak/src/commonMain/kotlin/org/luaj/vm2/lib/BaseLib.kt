@@ -275,8 +275,7 @@ open class BaseLib : TwoArgFunction(), ResourceFinder {
 
         override fun invoke(args: Varargs): Varargs {
             val func = args.checkvalue(1)
-            if (globals != null && globals!!.debuglib != null)
-                globals!!.debuglib!!.onCall(this)
+            globals?.debuglib?.onCall(this)
             try {
                 return varargsOf(BTRUE, func.invoke(args.subargs(2)))
             } catch (le: LuaError) {
@@ -286,8 +285,7 @@ open class BaseLib : TwoArgFunction(), ResourceFinder {
                 val m = e.message
                 return varargsOf(BFALSE, valueOf(m ?: e.toString()))
             } finally {
-                if (globals != null && globals!!.debuglib != null)
-                    globals!!.debuglib!!.onReturn()
+                globals?.debuglib?.onReturn()
             }
         }
     }
@@ -430,11 +428,10 @@ open class BaseLib : TwoArgFunction(), ResourceFinder {
     internal inner class Xpcall : VarArgFunction() {
         override fun invoke(args: Varargs): Varargs {
             val t = globals!!.running
-            val preverror = t!!.errorfunc
+            val preverror = t.errorfunc
             t.errorfunc = args.checkvalue(2)
             try {
-                if (globals != null && globals!!.debuglib != null)
-                    globals!!.debuglib!!.onCall(this)
+                globals?.debuglib?.onCall(this)
                 try {
                     return varargsOf(BTRUE, args.arg1().invoke(args.subargs(3)))
                 } catch (le: LuaError) {
@@ -444,8 +441,7 @@ open class BaseLib : TwoArgFunction(), ResourceFinder {
                     val m = e.message
                     return varargsOf(BFALSE, valueOf(m ?: e.toString()))
                 } finally {
-                    if (globals != null && globals!!.debuglib != null)
-                        globals!!.debuglib!!.onReturn()
+                    globals?.debuglib?.onReturn()
                 }
             } finally {
                 t.errorfunc = preverror
