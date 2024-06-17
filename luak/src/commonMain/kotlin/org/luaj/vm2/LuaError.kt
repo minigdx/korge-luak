@@ -49,6 +49,16 @@ class LuaError : RuntimeException {
     @kotlin.jvm.JvmField
     var fileline: String? = null
 
+    /**
+     * Line reporting the error
+     */
+    var line: Int = -1
+
+    /**
+     * Script name reporting the error
+     */
+    var script: String = ""
+
     @kotlin.jvm.JvmField
     var traceback: String? = null
 

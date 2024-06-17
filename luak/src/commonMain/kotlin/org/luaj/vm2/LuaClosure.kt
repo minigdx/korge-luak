@@ -753,7 +753,7 @@ class LuaClosure
         val e = r.errorfunc
         r.errorfunc = null
         return try {
-            e!!.call(LuaValue.valueOf(msg)).tojstring()
+            e!!.call(valueOf(msg)).tojstring()
         } catch (t: Throwable) {
             "error in error handling"
         } finally {
@@ -762,8 +762,16 @@ class LuaClosure
     }
 
     private fun processErrorHooks(le: LuaError, p: Prototype, pc: Int) {
-        le.fileline =
-            ((p.source.tojstring()) + ":" + if (pc >= 0 && pc < p.lineinfo.size) p.lineinfo[pc].toString() else "?")
+        val scriptName = p.source.tojstring()
+        val lineinfo = if(pc >= 0 && pc < p.lineinfo.size) {
+            p.lineinfo[pc]
+        } else {
+            null
+        }
+
+        le.fileline = (scriptName + ":" + (lineinfo?.toString() ?: "?"))
+        le.line = lineinfo ?: 0
+        le.script = scriptName
         le.traceback = errorHook(le.message!!, le.level)
     }
 
