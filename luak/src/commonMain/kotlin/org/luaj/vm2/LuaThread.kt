@@ -188,7 +188,7 @@ class LuaThread : LuaValue {
         @kotlin.jvm.JvmField
         var status = LuaThread.STATUS_INITIAL
 
-        //@Synchronized
+        //@JvmSynchronized
         suspend fun runSuspend() {
             try {
                 val a = this.args

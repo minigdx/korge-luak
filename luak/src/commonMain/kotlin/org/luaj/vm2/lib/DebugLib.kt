@@ -22,6 +22,7 @@
 package org.luaj.vm2.lib
 
 import org.luaj.vm2.Globals
+import org.luaj.vm2.JvmSynchronized
 import org.luaj.vm2.Lua
 import org.luaj.vm2.LuaBoolean
 import org.luaj.vm2.LuaClosure
@@ -486,12 +487,12 @@ class DebugLib : TwoArgFunction(), ExecutionListener {
         internal var frame = EMPTY
         internal var calls = 0
 
-        @Synchronized
+        @JvmSynchronized
         internal fun currentline(): Int {
             return if (calls > 0) frame[calls - 1].currentline() else -1
         }
 
-        @Synchronized
+        @JvmSynchronized
         private fun pushcall(): CallFrame {
             if (calls >= frame.size) {
                 val n = max(4, frame.size * 3 / 2)
@@ -506,23 +507,23 @@ class DebugLib : TwoArgFunction(), ExecutionListener {
             return frame[calls++]
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun onCall(function: LuaFunction) {
             pushcall().set(function)
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun onCall(function: LuaClosure, varargs: Varargs, stack: Array<LuaValue>) {
             pushcall()[function, varargs] = stack
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun onReturn() {
             if (calls > 0)
                 frame[--calls].reset()
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun onInstruction(pc: Int, v: Varargs, top: Int) {
             if (calls > 0)
                 frame[calls - 1].instr(pc, v, top)
@@ -533,7 +534,7 @@ class DebugLib : TwoArgFunction(), ExecutionListener {
          * @param level
          * @return String containing the traceback.
          */
-        @Synchronized
+        @JvmSynchronized
         internal fun traceback(level: Int): String {
             var level = level
             val sb = StringBuilder()
@@ -562,12 +563,12 @@ class DebugLib : TwoArgFunction(), ExecutionListener {
             return sb.toString()
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun getCallFrame(level: Int): CallFrame? {
             return if (level < 1 || level > calls) null else frame[calls - level]
         }
 
-        @Synchronized
+        @JvmSynchronized
         internal fun findCallFrame(func: LuaValue): CallFrame? {
             for (i in 1..calls)
                 if (frame[calls - i].f === func)
@@ -576,7 +577,7 @@ class DebugLib : TwoArgFunction(), ExecutionListener {
         }
 
 
-        @Synchronized
+        @JvmSynchronized
         internal fun auxgetinfo(what: String, f: LuaFunction?, ci: CallFrame?): DebugInfo {
             val ar = DebugInfo()
             var i = 0

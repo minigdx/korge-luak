@@ -364,7 +364,7 @@ class StringLib : TwoArgFunction() {
                 }
                 digits = number.toString(radix)
                 if (conversion == 'X'.toInt())
-                    digits = digits.toUpperCase()
+                    digits = digits.uppercase()
             }
 
             var minwidth = digits.length
@@ -589,7 +589,7 @@ class StringLib : TwoArgFunction() {
      */
     internal class Lower : OneArgFunction() {
         override fun call(arg: LuaValue): LuaValue {
-            return LuaValue.valueOf(arg.checkjstring()!!.toLowerCase())
+            return LuaValue.valueOf(arg.checkjstring()!!.lowercase())
         }
     }
 
@@ -690,7 +690,7 @@ class StringLib : TwoArgFunction() {
      */
     internal class Upper : OneArgFunction() {
         override fun call(arg: LuaValue): LuaValue {
-            return LuaValue.valueOf(arg.checkjstring()!!.toUpperCase())
+            return LuaValue.valueOf(arg.checkjstring()!!.uppercase())
         }
     }
 
@@ -1030,7 +1030,7 @@ class StringLib : TwoArgFunction() {
         companion object {
 
             fun match_class(c: Int, cl: Int): Boolean {
-                val lcl = cl.toChar().toLowerCase()
+                val lcl = cl.toChar().lowercaseChar()
                 val cdata = CHAR_TABLE[c].toInt()
 
                 val res: Boolean

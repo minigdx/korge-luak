@@ -441,7 +441,7 @@ open class OsLib : TwoArgFunction() {
      *
      * @return String filename to use
      */
-    @Synchronized
+    @JvmSynchronized
     protected open fun tmpname(): String = TMP_PREFIX + tmpnames++ + TMP_SUFFIX
 
     companion object {

@@ -30,8 +30,15 @@ import org.luaj.vm2.lib.ExecutionListener
 import org.luaj.vm2.lib.IoLib
 import org.luaj.vm2.lib.PackageLib
 import org.luaj.vm2.lib.ResourceFinder
+import org.luaj.vm2.parser.LuaParserConstants.Companion.FUNCTION
 import kotlin.jvm.*
 import kotlin.math.*
+
+@OptIn(ExperimentalMultiplatform::class)
+@OptionalExpectation
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FUNCTION)
+expect annotation class JvmSynchronized()
 
 /**
  * Global environment used by luaj.  Contains global variables referenced by executing lua.
@@ -391,7 +398,7 @@ open class Globals(
 
         override fun close() { s.close() }
 
-        @Synchronized
+        @JvmSynchronized
         override fun mark(n: Int) {
             if (i > 0 || n > b.size) {
                 val dest = if (n > b.size) ByteArray(n) else b
@@ -404,7 +411,7 @@ open class Globals(
 
         override fun markSupported(): Boolean = true
 
-        @Synchronized
+        @JvmSynchronized
         override fun reset() { i = 0 }
     }
 }
