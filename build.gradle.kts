@@ -1,5 +1,5 @@
 plugins {
-    id("com.github.minigdx.gradle.plugin.developer.mpp") version("1.4.1")
+    id("com.github.minigdx.gradle.plugin.developer.mpp") version("1.5.0")
 }
 
 minigdxDeveloper {

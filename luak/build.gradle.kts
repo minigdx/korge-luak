@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    add("commonMainApi", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    add("commonMainApi", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 }
 
 minigdxDeveloper {
